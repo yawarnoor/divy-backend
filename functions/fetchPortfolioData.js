@@ -6,7 +6,7 @@ export async function fetchPortfolioData() {
   try {
     const spreadsheetId = process.env.SPREADSHEET_ID;
     const sheetName = process.env.SHEET_NAME;
-    const url = `https://gsx2json.com/api?id=${spreadsheetId}&sheet=${sheetName}`;
+    const url = `http://localhost:3333/api?id=${spreadsheetId}&sheet=${sheetName}`;
     
     const response = await axios.get(url);
     return response.data;

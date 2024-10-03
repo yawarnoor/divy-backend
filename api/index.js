@@ -4,6 +4,8 @@ import cors from "cors";
 import openai from "../utils/openai.js";
 import searchGoogle from "../functions/searchGoogle.js";
 import axios from "axios";
+import { fetchPortfolioData } from "../functions/fetchPortfolioData.js";
+import { cleanAndProcessStockData } from "../functions/portfolioProcessor.js";
 
 const app = express();
 app.use(cors());
@@ -49,8 +51,11 @@ app.post("/run-assistant", async (req, res) => {
 
         const { symbol } = requestBody;
         const url = `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${symbol}&interval=5min&apikey=${process.env.ALPHA_VANTAGE_API_KEY}`;
+
         try {
           const response = await axios.get(url);
+          
+          console.log(response);
           const data = response.data["Time Series (5min)"];
           const latestTime = Object.keys(data)[0];
           const latestPrice = data[latestTime]["1. open"];
